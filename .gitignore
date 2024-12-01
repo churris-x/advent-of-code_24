@@ -1,0 +1,11 @@
+# npm
+node_modules/
+
+# Mac folder
+.DS_Store
+
+# env file
+.env
+
+# input files
+**/input.txt
