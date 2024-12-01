@@ -13,7 +13,7 @@ const getInputByDay = async day => {
     if (!day || isNaN(day)) throw `${file} needs a day number, got instead: ${day}`;
     if (day < 1 || day > 25) throw `${file}: day should be between 1-25, got instead: ${day}`;
 
-    const url = `https://adventofcode.com/2023/day/${day}/input`;
+    const url = `https://adventofcode.com/2024/day/${day}/input`;
     // TODO(Fran): try catch this
     const response = await fetch(url, {
         'headers': {
