@@ -1,0 +1,25 @@
+{
+  "name": "advent-of-code_23",
+  "version": "1.0.0",
+  "description": "Solutions to each puzzle from 2023",
+  "main": "index.js",
+  "scripts": {
+    "start": "sh scripts/freshInstall.sh",
+    "fetch": "sh scripts/fetch.sh",
+    "newDay": "sh scripts/newDay.sh",
+    "delete": "sh scripts/delete.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/churris-x/advent-of-code_23.git"
+  },
+  "author": "churris_x",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/churris-x/advent-of-code_23/issues"
+  },
+  "homepage": "https://github.com/churris-x/advent-of-code_23#readme",
+  "dependencies": {
+    "dotenv": "^16.3.1"
+  }
+}
