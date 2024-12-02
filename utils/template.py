@@ -1,5 +1,5 @@
-eg = open('eg.txt', 'r').read()[:-1]
-input = open('input.txt', 'r').read()[:-1]
+eg = open('eg.txt').read()[:-1]
+input = open('input.txt').read()[:-1]
 
 
 # Part 1 ----------------------------------------------------------------------
