@@ -1,14 +1,30 @@
-eg = open('eg.txt', 'r').read()[:-1]
-input = open('input.txt', 'r').read()[:-1]
+eg = open('eg.txt').read()[:-1]
+input = open('input.txt').read()[:-1]
 
 
 # Part 1 ----------------------------------------------------------------------
 
-def placeholder(input):
-    return input
+def sorted_distance(input):
+    left, right = [], []
 
-print('1) eg: ',    placeholder(eg))
-# print('1) input: ', placeholder(eg))
+    for line in input.split('\n'):
+
+        x, y = line.split('   ')
+        left.append(int(x))
+        right.append(int(y))
+
+    left.sort()
+    right.sort()
+
+    distance = 0
+
+    for index, number in enumerate(left):
+        distance += abs(number - right[index])
+
+    return distance
+
+print('1) eg: ',    sorted_distance(eg))
+print('1) input: ', sorted_distance(input))
 
 # Part 2 ----------------------------------------------------------------------
 
@@ -16,12 +32,12 @@ print('1) eg: ',    placeholder(eg))
 #     return input
 
 # print('2) eg: ',    placeholder(eg))
-# print('2) input: ', placeholder(eg))
+# print('2) input: ', placeholder(input))
 
 '''
 Wrong guesses:
 
 Correct:
-    1) 76574
-    2) 2773250
+    1) 765748
+    2) 27732508
 '''
