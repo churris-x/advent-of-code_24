@@ -8,7 +8,6 @@ def sorted_distance(input):
     left, right = [], []
 
     for line in input.split('\n'):
-
         x, y = line.split('   ')
         left.append(int(x))
         right.append(int(y))
@@ -28,11 +27,23 @@ print('1) input: ', sorted_distance(input))
 
 # Part 2 ----------------------------------------------------------------------
 
-# def placeholder(input):
-#     return input
+def similarity(input):
+    left, right = [], []
 
-# print('2) eg: ',    placeholder(eg))
-# print('2) input: ', placeholder(input))
+    for line in input.split('\n'):
+        x, y = line.split('   ')
+        left.append(int(x))
+        right.append(int(y))
+
+    similarity = 0
+
+    for number in left:
+        similarity += number * right.count(number)
+
+    return similarity
+
+print('2) eg: ',    similarity(eg))
+print('2) input: ', similarity(input))
 
 '''
 Wrong guesses:
