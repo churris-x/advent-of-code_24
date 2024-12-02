@@ -4,6 +4,8 @@ const input = fs.readFileSync(require.resolve('./input.txt')).toString().slice(0
 
 // Part 1 ---------------------------------------------------------------------
 
+// NOTE: this is some serious spaghetti
+
 const sortAndSeparate = input => input
     .split('\n')
     .map(i => i
@@ -22,7 +24,7 @@ const sortAndSeparate = input => input
         }, 0)
     }, 0);
 
-console.log('1) eg: ', sortAndSeparate(eg));
+console.log('1) eg: ',    sortAndSeparate(eg));
 console.log('1) input: ', sortAndSeparate(input));
 
 // Part 2 ---------------------------------------------------------------------
@@ -44,7 +46,7 @@ const sortAndScore = input => input
         }, 0)
     }, 0);
 
-console.log('2) eg: ', sortAndScore(eg));
+console.log('2) eg: ',    sortAndScore(eg));
 console.log('2) input: ', sortAndScore(input));
 
 /*
