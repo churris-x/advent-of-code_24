@@ -1,4 +1,4 @@
- # Advent of code 2024
+# Advent of code 2024
 Solutions to each day, in the following format:
 
 ```bash
