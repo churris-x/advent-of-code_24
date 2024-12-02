@@ -1,14 +1,14 @@
-eg = open('eg.txt').read()[:-1]
-input = open('input.txt').read()[:-1]
+eg = open('eg.txt').read().strip()
+user_input = open('input.txt').read().strip()
 
 
 # Part 1 ----------------------------------------------------------------------
 
-def sorted_distance(input):
+def sorted_distance(user_input):
     left, right = [], []
 
-    for line in input.split('\n'):
-        x, y = line.split('   ')
+    for line in user_input.splitlines():
+        x, y = line.split()
         left.append(int(x))
         right.append(int(y))
 
@@ -17,33 +17,36 @@ def sorted_distance(input):
 
     distance = 0
 
-    for index, number in enumerate(left):
-        distance += abs(number - right[index])
+    for l, r in zip(left, right):
+        distance += abs(l - r)
 
     return distance
 
 print('1) eg: ',    sorted_distance(eg))
-print('1) input: ', sorted_distance(input))
+print('1) input: ', sorted_distance(user_input))
 
 # Part 2 ----------------------------------------------------------------------
 
-def similarity(input):
+def similarity(user_input):
     left, right = [], []
 
-    for line in input.split('\n'):
-        x, y = line.split('   ')
+    for line in user_input.splitlines():
+        x, y = line.split()
         left.append(int(x))
         right.append(int(y))
 
     similarity = 0
 
+    count = {}
     for number in left:
-        similarity += number * right.count(number)
+        if number not in count:
+            count[number] = right.count(number)
+        similarity += number * count[number]
 
     return similarity
 
 print('2) eg: ',    similarity(eg))
-print('2) input: ', similarity(input))
+print('2) input: ', similarity(user_input))
 
 '''
 Wrong guesses:
