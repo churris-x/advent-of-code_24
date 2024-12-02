@@ -33,23 +33,23 @@ console.log('1) input: ', placeholder(input));
 // Part 2 ---------------------------------------------------------------------
 
 const analyseReport = (report, debug=false) => report
-    .reduce(([safe, increasing, failed], number, index, array) => {
+    .reduce(([safe, increasing], number, index, array) => {
         if (debug) console.log(report, safe);
-        if (safe === 0) return [0, increasing, failed]
+        if (safe === 0) return [0, increasing]
 
         const prev = array[index - 1]
 
-        if (!prev) return [1, number - array[index + 1] < 0, failed]
+        if (!prev) return [1, number - array[index + 1] < 0]
 
-        if (prev - number === 0) return [0, increasing, failed ?? [prev, index -1]]
-        if (Math.abs(prev - number) > 3) return [0, increasing, failed ?? [prev, index -1]]
+        if (prev - number === 0) return [0, increasing]
+        if (Math.abs(prev - number) > 3) return [0, increasing]
 
-        if (increasing && prev - number < 0) return [1, true, failed]
-        if (!increasing && prev - number > 0) return [1, false, failed]
+        if (increasing && prev - number < 0) return [1, true]
+        if (!increasing && prev - number > 0) return [1, false]
 
-        return [0, null, failed ?? [prev, index -1]]
+        return [0, null]
 
-    }, [1, null, null])
+    }, [1, null])
 
 
 const placeholder2 = input => input
@@ -62,11 +62,9 @@ const placeholder2 = input => input
 
         if (safety) return totalSafe + safety
 
-        safety = report
-            .some((number, index) => analyseReport(report.filter((it, ind) => it !== number || ind !== index))[0])
-
-        // console.log(report, safety);
-
+        safety = report.some((number, index) => analyseReport(
+            report.filter((item, i) => item !== number || i !== index))[0]
+        )
 
         return totalSafe + safety
 
