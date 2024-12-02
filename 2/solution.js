@@ -32,8 +32,9 @@ console.log('1) input: ', placeholder(input));
 
 // Part 2 ---------------------------------------------------------------------
 
-const analyseReport = report => report
+const analyseReport = (report, debug=false) => report
     .reduce(([safe, increasing, failed], number, index, array) => {
+        if (debug) console.log(report, safe);
         if (safe === 0) return [0, increasing, failed]
 
         const prev = array[index - 1]
@@ -57,19 +58,18 @@ const placeholder2 = input => input
     .reduce((totalSafe, report) => {
         let safety = analyseReport(report)
 
-        if (safety[0] === 0) {
-            safety = analyseReport(report.filter((item, index) => !(item === safety[2][0] && index === safety[2][1])))
-        }
-
-        if (safety[0] === 0) {
-            safety = analyseReport(report.filter((item, index) => !(item === report[safety[2][1] + 1] && index === safety[2][1] + 1)))
-        }
-
-
         safety = safety[0]
+
+        if (safety) return totalSafe + safety
+
+        safety = report
+            .some((number, index) => analyseReport(report.filter((it, ind) => it !== number || ind !== index))[0])
+
+        // console.log(report, safety);
 
 
         return totalSafe + safety
+
     }, 0)
 
 console.log('2) eg: ', placeholder2(eg));
@@ -81,6 +81,6 @@ Wrong guesses:
     2) 304
     2) 280 too low
 Correct:
-    1) 
-    2) 
+    1) 230
+    2) 301
 */
