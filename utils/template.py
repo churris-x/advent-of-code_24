@@ -8,7 +8,7 @@ def placeholder(input):
     return input
 
 print('1) eg: ',    placeholder(eg))
-# print('1) input: ', placeholder(eg))
+# print('1) input: ', placeholder(input))
 
 # Part 2 ----------------------------------------------------------------------
 
@@ -16,12 +16,12 @@ print('1) eg: ',    placeholder(eg))
 #     return input
 
 # print('2) eg: ',    placeholder(eg))
-# print('2) input: ', placeholder(eg))
+# print('2) input: ', placeholder(input))
 
 '''
 Wrong guesses:
 
 Correct:
-    1) 76574
-    2) 2773250
+    1)
+    2)
 '''
