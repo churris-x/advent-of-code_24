@@ -23,6 +23,8 @@ console.log('1) input: ', parse(input));
 
 // Part 2 ---------------------------------------------------------------------
 
+// TODO: don't use regex
+
 const parseInstructions = input => input
     .split('\n')
     .flatMap(line => line.split(''))
@@ -30,27 +32,19 @@ const parseInstructions = input => input
         const instruction = prevInstruction + char;
 
         if (instruction.includes( 'don\'t()')) return ['', false, total]
-        if (instruction.includes( 'do()')) return ['', true, total]
+        if (instruction.includes('do()')) return ['', true, total]
 
-        mulIndex = instruction.indexOf('mul(')
-        endIndex = instruction.slice(mulIndex).indexOf(')') + mulIndex
+        expression = instruction.match(/mul\([0-9]{1,3},[0-9]{1,3}\)/)?.[0]
 
-        // See if we have mul( prefix and a closing )
-        if (mulIndex >= 0 && mulIndex < endIndex) {
-
+        if (expression) {
             if (!multiply) return ['', multiply, total]
-
-            const [a, b] = instruction
-                .slice(mulIndex + 4, -1)
-                .split(',')
-                .map(n => Number(n))
-
-            if (isNaN(a) || isNaN(b)) return ['', multiply, total]
-
+            const [a, b] = expression.slice(4, -1).split(',')
             return ['', multiply, total + a * b]
-        } else return [instruction, multiply, total]
+        }
 
-    }, ['', true, 0])
+        return [instruction, multiply, total]
+
+    }, ['', true, 0])[2]
 
 
 console.log('2) eg: ', parseInstructions(eg));
@@ -62,5 +56,5 @@ Wrong guesses:
     2) 81678445 too low
 Correct:
     1) 161085926
-    2) 
+    2) 82045421
 */
