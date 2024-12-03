@@ -33,9 +33,11 @@ const parseInstructions = input => input
         if (instruction.includes( 'do()')) return ['', true, total]
 
         mulIndex = instruction.indexOf('mul(')
+        endIndex = instruction.slice(mulIndex).indexOf(')') + mulIndex
 
         // See if we have mul( prefix and a closing )
-        if (mulIndex >= 0 && mulIndex < instruction.indexOf(')')) {
+        if (mulIndex >= 0 && mulIndex < endIndex) {
+
             if (!multiply) return ['', multiply, total]
 
             const [a, b] = instruction
@@ -46,12 +48,9 @@ const parseInstructions = input => input
             if (isNaN(a) || isNaN(b)) return ['', multiply, total]
 
             return ['', multiply, total + a * b]
-        }
+        } else return [instruction, multiply, total]
 
-
-        return [instruction, multiply, total]
-
-    }, ['', true, 0])[2]
+    }, ['', true, 0])
 
 
 console.log('2) eg: ', parseInstructions(eg));
@@ -60,6 +59,7 @@ console.log('2) input: ', parseInstructions(input));
 /*
 Wrong guesses:
     2) 2291705 too low
+    2) 81678445 too low
 Correct:
     1) 161085926
     2) 
