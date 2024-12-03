@@ -5,25 +5,21 @@ const input = fs.readFileSync(require.resolve('./input.txt')).toString().slice(0
 // Part 1 ---------------------------------------------------------------------
 
 // mul(123,123)
-// TODO: don't use regex
 
 const parse = input => input
     .split('\n')
-    .flatMap(line => [...line.matchAll(/mul\([0-9]{1,3},[0-9]{1,3}\)/g)]
-        .map(i => i[0])
+    .flatMap(line =>
+        [...line.matchAll(/mul\([0-9]{1,3},[0-9]{1,3}\)/g)].map(i => i[0])
     )
     .reduce((total, multiply) => {
-
         const [a, b] = multiply.slice(4, -1).split(',')
         return total + a * b
     }, 0)
 
-// console.log('1) eg: ', parse(eg));
-// console.log('1) input: ', parse(input));
+console.log('1) eg:    ', parse(eg));
+console.log('1) input: ', parse(input));
 
 // Part 2 ---------------------------------------------------------------------
-
-// TODO: don't use regex
 
 const parseInstructions = input => input
     .split('\n')
@@ -46,51 +42,46 @@ const parseInstructions = input => input
 
     }, ['', true, 0])[2]
 
-// console.log('2) eg: ', parseInstructions(eg));
-// console.log('2) input: ', parseInstructions(input));
+console.log('2) eg:    ', parseInstructions(eg));
+console.log('2) input: ', parseInstructions(input));
 
 const parseRegexless = input => input
     .split('\n')
     .flatMap(line => line.split(''))
     .reduce(([prevInstruction, multiply, total], char) => {
-        const instruction = prevInstruction + char;
+        let instruction = prevInstruction + char;
 
-        // if (instruction.includes( 'don\'t()')) return ['', false, total]
-        // if (instruction.includes( 'do()')) return ['', true, total]
+        if (instruction.includes( 'don\'t()')) return ['', false, total]
+        if (instruction.includes( 'do()')) return ['', true, total]
 
         const mulIndex = instruction.indexOf('mul(')
-        const endIndex = instruction.slice(mulIndex).indexOf(')') + mulIndex
+        let endIndex = instruction.slice(mulIndex).indexOf(')')
+        endIndex = endIndex >= 0 ? endIndex : undefined
 
-        console.log(instruction, mulIndex, endIndex, endIndex - mulIndex);
+        if (mulIndex >= 0) {
 
-        if (mulIndex >= 0 && instruction.slice(mulIndex).length > 11) {
-            console.log(100000000);
-            return ['', multiply, total]
-        }
-
-
-        // See if we have mul( prefix and a closing )
-        if (mulIndex >= 0 && mulIndex < endIndex) {
-
-            if (!multiply) return ['', multiply, total]
+            instruction = instruction.slice(mulIndex)
 
             const [a, b] = instruction
-                .slice(mulIndex + 4, -1)
+                .slice(4, endIndex)
                 .split(',')
                 .map(n => Number(n))
 
-            if (isNaN(a) || isNaN(b)) return ['', multiply, total]
+            if (a !== a || b !== b) return [char, multiply, total]
 
-
-            return ['', multiply, total + a * b]
+            if (endIndex && multiply) return ['', multiply, total + a * b]
+            if (endIndex) return ['', multiply, total]
         }
+
 
         return [instruction, multiply, total]
 
-    }, ['', true, 0])
+    }, ['', true, 0])[2]
 
 
-console.log(parseRegexless('stuffxmul(2,4mul(3,7])\n'));
+// console.log('   eg:    ', parseRegexless(eg));
+// console.log('   input: ', parseRegexless(input));
+// console.log('   test:  ', parseRegexless('stuffxmul(2,4mul(3,7)asdf\n'));
 
 /*
 Wrong guesses:
