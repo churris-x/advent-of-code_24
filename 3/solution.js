@@ -18,8 +18,8 @@ const parse = input => input
         return total + a * b
     }, 0)
 
-console.log('1) eg: ', parse(eg));
-console.log('1) input: ', parse(input));
+// console.log('1) eg: ', parse(eg));
+// console.log('1) input: ', parse(input));
 
 // Part 2 ---------------------------------------------------------------------
 
@@ -46,9 +46,51 @@ const parseInstructions = input => input
 
     }, ['', true, 0])[2]
 
+// console.log('2) eg: ', parseInstructions(eg));
+// console.log('2) input: ', parseInstructions(input));
 
-console.log('2) eg: ', parseInstructions(eg));
-console.log('2) input: ', parseInstructions(input));
+const parseRegexless = input => input
+    .split('\n')
+    .flatMap(line => line.split(''))
+    .reduce(([prevInstruction, multiply, total], char) => {
+        const instruction = prevInstruction + char;
+
+        // if (instruction.includes( 'don\'t()')) return ['', false, total]
+        // if (instruction.includes( 'do()')) return ['', true, total]
+
+        const mulIndex = instruction.indexOf('mul(')
+        const endIndex = instruction.slice(mulIndex).indexOf(')') + mulIndex
+
+        console.log(instruction, mulIndex, endIndex, endIndex - mulIndex);
+
+        if (mulIndex >= 0 && instruction.slice(mulIndex).length > 11) {
+            console.log(100000000);
+            return ['', multiply, total]
+        }
+
+
+        // See if we have mul( prefix and a closing )
+        if (mulIndex >= 0 && mulIndex < endIndex) {
+
+            if (!multiply) return ['', multiply, total]
+
+            const [a, b] = instruction
+                .slice(mulIndex + 4, -1)
+                .split(',')
+                .map(n => Number(n))
+
+            if (isNaN(a) || isNaN(b)) return ['', multiply, total]
+
+
+            return ['', multiply, total + a * b]
+        }
+
+        return [instruction, multiply, total]
+
+    }, ['', true, 0])
+
+
+console.log(parseRegexless('stuffxmul(2,4mul(3,7])\n'));
 
 /*
 Wrong guesses:
