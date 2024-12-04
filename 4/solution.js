@@ -30,46 +30,70 @@ diagonal
 
 */
 
+const getAmount = input => {
+    const east = input.split('\n');
 
-const placeholder = input => {
-    const normal = input.split('\n')
+    const size = east[0].length;
 
-    const backwards = input
-        .split('\n')
+    const south = Array(size).fill('');
+    const north_east = Array(2 * size - 1).fill('');
+    const south_east = Array(2 * size - 1).fill('');
+
+    for (const [lineIndex, line] of east.entries()) {
+        for (const [index, char] of line.split('').entries()) {
+            south[index] = south[index].concat(char);
+        }
+    }
+
+    for (const [lineIndex, line] of east.entries()) {
+        for (const [index, char] of line.split('').entries()) {
+            const row = index + lineIndex;
+            north_east[row] = north_east[row].concat(char);
+        }
+    }
+
+    for (const [lineIndex, line] of east.entries()) {
+        for (const [index, char] of line.split('').entries()) {
+            const row = index - lineIndex + size - 1;
+            south_east[row] = south_east[row].concat(char);
+        }
+    }
+
+
+    const west = east
         .reverse()
-        .map(i => i.split('').reverse().join(''))
+        .map(i => i.split('').reverse().join(''));
 
+    const north = south
+        .reverse()
+        .map(i => i.split('').reverse().join(''));
 
-    const size = normal[0].length
+    const south_west = north_east
+        .reverse()
+        .map(i => i.split('').reverse().join(''));
 
-    const diagonal_up = Array(2 * size - 1).fill([])
-    const diagonal_down = Array(2 * size - 1).fill([])
+    const north_west = south_east
+        .reverse()
+        .map(i => i.split('').reverse().join(''));
 
-    for (const [lineIndex, line] of normal.entries()) {
-        for (const [index, char] of line.split('').entries()) {
-            const row = index + lineIndex
-            diagonal_up[row] = [...diagonal_up[row], char]
-        }
-    }
+    // console.table({north, south, east, west, north_east, south_west, south_east, north_west });
 
-    for (const [lineIndex, line] of normal.entries()) {
-        for (const [index, char] of line.split('').entries()) {
-            const row = index - lineIndex + size -1
-            diagonal_down[row] = [...diagonal_down[row], char]
-        }
-    }
+    const parse = grid => grid
+        .reduce((total, line) => total + (line.match(/XMAS/g)?.length ?? 0), 0);
 
+    const total = [
+        north, south,
+        east, west,
+        north_east, south_west,
+        south_east, north_west
+    ].reduce((total, grid) => total + parse(grid), 0);
 
-    console.log(normal, backwards, diagonal_up, diagonal_down);
+    return total;
+
 }
 
-
-const parse = grid => grid
-    .reduce((total, line) => line.match(/XMAS/g).length, 0)
-
-
-console.log('1) eg: ', placeholder(eg));
-// console.log('1) input: ', placeholder(input));
+console.log('1) eg: ', getAmount(eg));
+console.log('1) input: ', getAmount(input));
 
 // Part 2 ---------------------------------------------------------------------
 
@@ -82,6 +106,6 @@ console.log('1) eg: ', placeholder(eg));
 Wrong guesses:
 
 Correct:
-    1) 
+    1) 2545
     2) 
 */
