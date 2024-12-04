@@ -42,17 +42,25 @@ const placeholder = input => {
 
     const size = normal[0].length
 
-    // let diagonal_up = []
-    // for (const line of normal) {
-    // }
+    const diagonal_up = Array(2 * size - 1).fill([])
+    const diagonal_down = Array(2 * size - 1).fill([])
 
-    const diagonal_up = normal
-        .map(line => {
+    for (const [lineIndex, line] of normal.entries()) {
+        for (const [index, char] of line.split('').entries()) {
+            const row = index + lineIndex
+            diagonal_up[row] = [...diagonal_up[row], char]
+        }
+    }
 
-        })
+    for (const [lineIndex, line] of normal.entries()) {
+        for (const [index, char] of line.split('').entries()) {
+            const row = index - lineIndex + size -1
+            diagonal_down[row] = [...diagonal_down[row], char]
+        }
+    }
 
 
-    // console.log(normal, backwards, size);
+    console.log(normal, backwards, diagonal_up, diagonal_down);
 }
 
 
