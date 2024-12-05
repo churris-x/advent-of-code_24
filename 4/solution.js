@@ -5,19 +5,6 @@ const input = fs.readFileSync(require.resolve('./input.txt')).toString().slice(0
 // Part 1 ---------------------------------------------------------------------
 
 /*
-  0123456789
-0 xoxoxoxoxo
-1 oxoxoxoxox
-2 xoxoxoxoxo
-3 oxoxoxoxox
-4 xoxoxoxoxo
-5 oxoxoxoxox
-6 xoxoxoxoxo
-7 oxoxoxoxox
-8 xoxoxoxoxo
-9 oxoxoxoxox
-
-
 n x n square = 2n - 1 diagonals?
 
 0123
@@ -31,7 +18,6 @@ diagonal
 
 x + y => diagonal
 x - y + n => second diagonal
-
 
 */
 
@@ -97,25 +83,10 @@ const getAmount = input => {
 
 }
 
-// console.log('1) eg: ', getAmount(eg));
-// console.log('1) input: ', getAmount(input));
+console.log('1) eg: ', getAmount(eg));
+console.log('1) input: ', getAmount(input));
 
 // Part 2 ---------------------------------------------------------------------
-
-/*
- ___________
-0|    .    |
-1|   M .   |
-2|  . . .  |
-3| S # M . |
-4|. . . . .|
-5| . S A M |
-6|  . . .  |
-7|   . S   |
-8|    .    |
- ___________
-
-*/
 
 const findCross = input => input
     .split('\n')
@@ -148,5 +119,5 @@ Wrong guesses:
     1948 too high, right answer for someone else
 Correct:
     1) 2545
-    2) 
+    2) 1886
 */
