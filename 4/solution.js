@@ -119,45 +119,33 @@ const getAmount = input => {
 
 const findCross = input => input
     .split('\n')
-    .reduce((total, line, lineIndex, grid) => {
-        const stuff = line
+    .reduce((total, line, lineIndex, grid) => total + line
             .split('')
             .reduce((sum, char, index) => {
                 if (char !== 'A') return sum;
 
-                const prev = grid[lineIndex - 1]?.[index + 1];
-                const next = grid[lineIndex + 1]?.[index - 1];
+                const next = grid[lineIndex - 1]?.[index + 1];
+                const prev = grid[lineIndex + 1]?.[index - 1];
+                const top = grid[lineIndex - 1]?.[index - 1];
+                const bottom = grid[lineIndex + 1]?.[index + 1];
 
-                if (!prev || !next) return sum;
+                if (!prev || !next || !top || !bottom) return sum;
 
-                const east_west = `${prev}${next}`;
+                const adjacent = `${prev}${next}${top}${bottom}`;
+                const valid = ['MSMS', 'SMSM', 'SMMS', 'MSSM']
 
-                const valid = ['MS', 'SM', 'MM', 'SS']
-
-                if (!valid.includes(east_west)) return sum;
-
-                const top = grid[lineIndex - 1][index - 1];
-                const bottom = grid[lineIndex + 1][index + 1];
-
-                const north_south = `${top}${bottom}`;
-
-                if (!valid.includes(north_south)) return sum;
+                if (!valid.includes(adjacent)) return sum;
 
                 return sum + 1
-
             } , 0)
+    , 0)
 
-        console.log(stuff);
-
-        return total + stuff
-    }, 0)
-
-console.log('\n2) eg: ', findCross(eg));
-// console.log('2) input: ', findCross(input));
+console.log('2) eg: ', findCross(eg));
+console.log('2) input: ', findCross(input));
 
 /*
 Wrong guesses:
-
+    1948 too high, right answer for someone else
 Correct:
     1) 2545
     2) 
