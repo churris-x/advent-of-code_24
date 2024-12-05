@@ -49,10 +49,11 @@ const parseRegexless = input => input
     .split('\n')
     .flatMap(line => line.split(''))
     .reduce(([prevInstruction, multiply, total], char) => {
-        let instruction = prevInstruction + char;
+        const instruction = prevInstruction + char;
 
         if (instruction.includes( 'don\'t()')) return ['', false, total]
         if (instruction.includes( 'do()')) return ['', true, total]
+        if (!multiply) return [instruction, multiply, total]
 
         const mulIndex = instruction.indexOf('mul(')
         let endIndex = instruction.slice(mulIndex).indexOf(')')
@@ -60,17 +61,15 @@ const parseRegexless = input => input
 
         if (mulIndex >= 0) {
 
-            instruction = instruction.slice(mulIndex)
-
             const [a, b] = instruction
+                .slice(mulIndex)
                 .slice(4, endIndex)
                 .split(',')
                 .map(n => Number(n))
 
             if (a !== a || b !== b) return [char, multiply, total]
 
-            if (endIndex && multiply) return ['', multiply, total + a * b]
-            if (endIndex) return ['', multiply, total]
+            if (endIndex) return ['', multiply, total + a * b]
         }
 
 
@@ -79,8 +78,8 @@ const parseRegexless = input => input
     }, ['', true, 0])[2]
 
 
-// console.log('   eg:    ', parseRegexless(eg));
-// console.log('   input: ', parseRegexless(input));
+console.log('   eg:    ', parseRegexless(eg));
+console.log('   input: ', parseRegexless(input));
 // console.log('   test:  ', parseRegexless('stuffxmul(2,4mul(3,7)asdf\n'));
 
 /*
