@@ -117,46 +117,40 @@ const getAmount = input => {
 
 */
 
-const findCross = input => {
+const findCross = input => input
+    .split('\n')
+    .reduce((total, line, lineIndex, grid) => {
+        const stuff = line
+            .split('')
+            .reduce((sum, char, index) => {
+                if (char !== 'A') return sum;
 
-    const east = input.split('\n');
-    const size = east[0].length;
-    const north_east = Array(2 * size - 1).fill('');
-    const south_east = Array(2 * size - 1).fill('');
+                const prev = grid[lineIndex - 1]?.[index + 1];
+                const next = grid[lineIndex + 1]?.[index - 1];
 
-    for (const [lineIndex, line] of east.entries()) {
-        for (const [index, char] of line.split('').entries()) {
-            const row = index + lineIndex;
-            north_east[row] = north_east[row].concat(char);
-        }
-    }
+                if (!prev || !next) return sum;
 
-    for (const [lineIndex, line] of east.entries()) {
-        for (const [index, char] of line.split('').entries()) {
-            const row = index - lineIndex + size - 1;
-            south_east[row] = south_east[row].concat(char);
-        }
-    }
+                const east_west = `${prev}${next}`;
 
-    // south_east.reverse()
+                const valid = ['MS', 'SM', 'MM', 'SS']
 
+                if (!valid.includes(east_west)) return sum;
 
+                const top = grid[lineIndex - 1][index - 1];
+                const bottom = grid[lineIndex + 1][index + 1];
 
-    // console.table({north_east, south_east});
-    console.log(' _012345678_012345678');
-    console.log(`0|    ${north_east[0].split('').join(' ')}    |    ${south_east[0].split('').join(' ')}`, );
-    console.log(`1|   ${north_east[1].split('').join(' ')}   |   ${south_east[1].split('').join(' ')}`,    );
-    console.log(`2|  ${north_east[2].split('').join(' ')}  |  ${south_east[2].split('').join(' ')}`,       );
-    console.log(`3| ${north_east[3].split('').join(' ')} | ${south_east[3].split('').join(' ')}`,          );
-    console.log(`4|${north_east[4].split('').join(' ')}|${south_east[4].split('').join(' ')}`,             );
-    console.log(`5| ${north_east[5].split('').join(' ')} | ${south_east[5].split('').join(' ')}`,          );
-    console.log(`6|  ${north_east[6].split('').join(' ')}  |  ${south_east[6].split('').join(' ')}`,       );
-    console.log(`7|   ${north_east[7].split('').join(' ')}   |   ${south_east[7].split('').join(' ')}`,    );
-    console.log(`8|    ${north_east[8].split('').join(' ')}    |    ${south_east[8].split('').join(' ')}`, );
+                const north_south = `${top}${bottom}`;
 
-    // for (const hu of north_east) console.log(hu, hu.length);
+                if (!valid.includes(north_south)) return sum;
 
-};
+                return sum + 1
+
+            } , 0)
+
+        console.log(stuff);
+
+        return total + stuff
+    }, 0)
 
 console.log('\n2) eg: ', findCross(eg));
 // console.log('2) input: ', findCross(input));
