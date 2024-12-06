@@ -48,7 +48,10 @@ const getPages = input => {
 
     const example = batch.split('\n')[4];
 
-    const combinations = nChooseK(example.split(','), 2);
+
+    const pages = example.split(',')
+
+    const combinations = nChooseK(pages, 2);
     const validRules = [];
 
     for (const [a, b] of combinations) {
@@ -59,8 +62,12 @@ const getPages = input => {
         if (rulebook.includes(flip)) validRules.push(flip);
     }
 
+    return validRules.map(rule => {
+        const [a, b] = rule.split('|');
 
-    return validRules
+        if (pages.indexOf(a) > pages.indexOf(b)) return [rule, false]
+        return [rule, true]
+    })
 };
 
 console.log('1) eg:    ', getPages(eg));
