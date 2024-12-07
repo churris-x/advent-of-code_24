@@ -46,32 +46,35 @@ const nChooseK = (array, k) => {
 const getPages = input => {
     const [rulebook, batch] = input.split('\n\n');
 
-    const example = batch.split('\n')[4];
+    return batch.split('\n').map(example => {
+        const pages = example.split(',')
 
+        const combinations = nChooseK(pages, 2);
+        const validRules = [];
 
-    const pages = example.split(',')
+        for (const [a, b] of combinations) {
+            const rule = `${a}|${b}`;
+            const flip = `${b}|${a}`;
 
-    const combinations = nChooseK(pages, 2);
-    const validRules = [];
+            if (rulebook.includes(rule)) validRules.push(rule);
+            if (rulebook.includes(flip)) validRules.push(flip);
+        }
 
-    for (const [a, b] of combinations) {
-        const rule = `${a}|${b}`;
-        const flip = `${b}|${a}`;
+        const valid = validRules.every(rule => {
+            const [a, b] = rule.split('|');
 
-        if (rulebook.includes(rule)) validRules.push(rule);
-        if (rulebook.includes(flip)) validRules.push(flip);
-    }
+            if (pages.indexOf(a) > pages.indexOf(b)) return false
+            return true
+        })
 
-    return validRules.map(rule => {
-        const [a, b] = rule.split('|');
-
-        if (pages.indexOf(a) > pages.indexOf(b)) return [rule, false]
-        return [rule, true]
+        if (valid) return Number(pages[pages.length / 2 - .5])
+        return 0
     })
+    .reduce((sum, page) => sum + page, 0)
 };
 
 console.log('1) eg:    ', getPages(eg));
-// console.log('1) input: ', getPages(input));
+console.log('1) input: ', getPages(input));
 
 // Part 2 ---------------------------------------------------------------------
 
@@ -84,7 +87,7 @@ console.log('1) eg:    ', getPages(eg));
 Wrong guesses:
 
 Correct:
-    1) 
+    1) 4462
     2) 
 */
 
