@@ -50,7 +50,7 @@ const concatenate = input => input
     .map(equation => {
         const colon = equation.indexOf(':');
 
-        const total = Number(equation.slice(0, colon));
+        const totalTest = Number(equation.slice(0, colon));
         const numbers = equation
             .slice(colon + 2)
             .split(' ')
@@ -58,6 +58,7 @@ const concatenate = input => input
 
         const recursiveSum = (array, total, results=[]) => {
             if (!array.length) return results.push(total);
+            if (total > totalTest) return results.push('invalid');
 
             recursiveSum(array.slice(1), Number(`${(total ?? '')}${array[0]}`), results);
             recursiveSum(array.slice(1), (total ?? 0) + array[0], results);
@@ -68,7 +69,7 @@ const concatenate = input => input
 
         const results = recursiveSum(numbers);
 
-        if (results.includes(total)) return total;
+        if (results.includes(totalTest)) return totalTest;
         return 0;
     })
     .reduce((sum, item) => sum + item, 0);
