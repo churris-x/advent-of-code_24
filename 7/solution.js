@@ -7,7 +7,8 @@ const input = fs.readFileSync(require.resolve('./input.txt')).toString().slice(0
 
 NOTE => always evaluated left-to-right
 
-
+1. generate valid equations
+2. evaluate them
 
 */
 
@@ -30,10 +31,43 @@ const nChooseK = (array, k) => {
     return result;
 }
 
-const placeholder = input => input;
+const placeholder = input => {
+    const equations = input.split('\n');
+
+
+    // delete this
+    const equation = equations[7]
+    // ---- this will be in a loop ----
+
+    const colon = equation.indexOf(':');
+
+    const total = Number(equation.slice(0, colon));
+    const numbers = equation
+        .slice(colon + 2)
+        .split(' ')
+        .map(i => Number(i));
+
+
+    const symbolsCount = numbers.length - 1
+    const symbolsMap = '+*'
+
+    const symbols = [];
+
+    // for (let i = 0; i < symbolsCount; i++) {
+    //     symbols
+    // }
+
+
+    return [total, numbers];
+
+};
 
 console.log('1) eg:    ', placeholder(eg));
 // console.log('1) input: ', placeholder(input));
+
+
+
+
 
 // Part 2 ---------------------------------------------------------------------
 
