@@ -34,7 +34,6 @@ const nChooseK = (array, k) => {
 const sumMultiply = input => input
     .split('\n')
     .map(equation => {
-
         const colon = equation.indexOf(':');
 
         const total = Number(equation.slice(0, colon));
@@ -43,22 +42,21 @@ const sumMultiply = input => input
             .split(' ')
             .map(i => Number(i));
 
-
         const recursiveSum = (array, total, results=[]) => {
             if (!array.length) return results.push(total);
 
             recursiveSum(array.slice(1), (total ?? 0) + array[0], results);
             recursiveSum(array.slice(1), (total ?? 1) * array[0], results);
 
-            return results
+            return results;
         };
 
         const results = recursiveSum(numbers);
 
-        if (results.includes(total)) return total
-        return 0
+        if (results.includes(total)) return total;
+        return 0;
     })
-    .reduce((sum, item) => sum + item, 0)
+    .reduce((sum, item) => sum + item, 0);
 
 console.log('1) eg:    ', sumMultiply(eg));
 console.log('1) input: ', sumMultiply(input));
@@ -69,7 +67,6 @@ console.log('1) input: ', sumMultiply(input));
 const concatenate = input => input
     .split('\n')
     .map(equation => {
-
         const colon = equation.indexOf(':');
 
         const total = Number(equation.slice(0, colon));
@@ -78,7 +75,6 @@ const concatenate = input => input
             .split(' ')
             .map(i => Number(i));
 
-
         const recursiveSum = (array, total, results=[]) => {
             if (!array.length) return results.push(total);
 
@@ -86,18 +82,18 @@ const concatenate = input => input
             recursiveSum(array.slice(1), (total ?? 0) + array[0], results);
             recursiveSum(array.slice(1), (total ?? 1) * array[0], results);
 
-            return results
+            return results;
         };
 
         const results = recursiveSum(numbers);
 
-        if (results.includes(total)) return total
-        return 0
+        if (results.includes(total)) return total;
+        return 0;
     })
-    .reduce((sum, item) => sum + item, 0)
+    .reduce((sum, item) => sum + item, 0);
 
 console.log('2) eg:    ', concatenate(eg));
-console.log('2) input: ', concatenate(input));
+console.log('2) input: ', concatenate(input)); // takes about 4 seconds (0_0)
 
 /*
 Wrong guesses:
