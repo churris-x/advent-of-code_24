@@ -1,6 +1,6 @@
-eg = open('eg.txt').read().strip()
-input = open('input.txt').read().strip()
-
+import os
+eg = open(f'{os.path.dirname(__file__)}/eg.txt').read().strip()
+input = open(f'{os.path.dirname(__file__)}/input.txt').read().strip()
 
 # Part 1 ----------------------------------------------------------------------
 
