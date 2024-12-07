@@ -4,11 +4,22 @@ const input = fs.readFileSync(require.resolve('./input.txt')).toString().slice(0
 
 // Part 1 ---------------------------------------------------------------------
 /*
-
 NOTE => always evaluated left-to-right
 
-1. generate valid equations
-2. evaluate them
+for each number -> add it, or multiply it
+
+make a option tree
+
+[9 7 18 13]
+
+9 + 7 + 18 + 13
+           * 13
+      * 18 + 13
+           * 13
+  * 7 + 18 + 13
+           * 13
+      * 18 + 13
+           * 13
 
 */
 
