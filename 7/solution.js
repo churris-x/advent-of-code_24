@@ -31,40 +31,37 @@ const nChooseK = (array, k) => {
     return result;
 }
 
-const placeholder = input => {
-    const equations = input.split('\n');
+const placeholder = input => input
+    .split('\n')
+    .map(equation => {
+
+        const colon = equation.indexOf(':');
+
+        const total = Number(equation.slice(0, colon));
+        const numbers = equation
+            .slice(colon + 2)
+            .split(' ')
+            .map(i => Number(i));
 
 
-    // delete this
-    const equation = equations[7]
-    // ---- this will be in a loop ----
+        const recursiveSum = (array, total, results=[]) => {
+            if (!array.length) return results.push(total);
 
-    const colon = equation.indexOf(':');
+            recursiveSum(array.slice(1), (total ?? 0) + array[0], results);
+            recursiveSum(array.slice(1), (total ?? 1) * array[0], results);
 
-    const total = Number(equation.slice(0, colon));
-    const numbers = equation
-        .slice(colon + 2)
-        .split(' ')
-        .map(i => Number(i));
+            return results
+        };
 
+        const results = recursiveSum(numbers);
 
-    const symbolsCount = numbers.length - 1
-    const symbolsMap = '+*'
-
-    const symbols = [];
-
-    // for (let i = 0; i < symbolsCount; i++) {
-    //     symbols
-    // }
-
-
-    return [total, numbers];
-
-};
+        if (results.includes(total)) return total
+        return 0
+    })
+    .reduce((sum, item) => sum + item, 0)
 
 console.log('1) eg:    ', placeholder(eg));
-// console.log('1) input: ', placeholder(input));
-
+console.log('1) input: ', placeholder(input));
 
 
 
@@ -80,6 +77,6 @@ console.log('1) eg:    ', placeholder(eg));
 Wrong guesses:
 
 Correct:
-    1) 
+    1) 945512582195
     2) 
 */
