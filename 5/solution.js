@@ -85,6 +85,16 @@ console.log('1) eg:    ', getPages(eg));
 97|29  61|13
 97|13
 
+hmmmmm.....
+
+97     75     47     61     53
+97|75  75|47  47|61  61|53
+97|47  75|61  47|53
+97|61  75|53
+97|53
+
+is this always true?
+
 */
 
 const getCorrectPages = input => {
@@ -107,15 +117,32 @@ const getCorrectPages = input => {
         const valid = validRules.map(rule => {
             const [a, b] = rule.split('|');
 
-            if (pages.indexOf(a) > pages.indexOf(b)) return [`${a}|${b}`, false]
-            return [`${a}|${b}`, true]
-        })
+            // if (pages.indexOf(a) > pages.indexOf(b)) return [`${a}|${b}`, false]
+            // return [`${a}|${b}`, true]
+            if (pages.indexOf(a) > pages.indexOf(b)) return `${a}|${b}`
+            return `${a}|${b}`
+        });
 
 
-        return valid
+        return valid;
 
         // return Number(pages[pages.length / 2 - .5])
     })
+    .map(i => i
+        .reduce((order, rule) => {
+            const key = rule.split('|')[0];
+            if (order[key]) {
+                return {...order, [key]: order[key] + 1};
+            }
+            return {...order, [key]: 1};
+        }, {})
+    )
+    .map(i => Object
+        .entries(i)
+        .sort(([_, a], [i, b]) => b - a )
+        .map(i => i[0])
+    )
+
     // .reduce((sum, page) => sum + page, 0)
 };
 
