@@ -26,7 +26,7 @@ I need to preserve the x y coordinate between arrays
 
 const walk = (string, index) => `${string.slice(0, index)}X${string.slice(index + 1)}`;
 
-const placeholder = input => {
+const route = input => {
     const rows = input.split('\n');
     const size = rows[0].length;
 
@@ -40,57 +40,47 @@ const placeholder = input => {
     let inBounds = (x >= 0 && x < size) && (y >= 0 && y < size);
 
 
-
-    // const goNorth = () => {};
-    // const goSouth = () => {};
-    // const goEast = () => {};
-    // const goWest = () => {};
+    const goNorth = () => {
+        direction = 'N';
+        columns[x] = walk(columns[x], y);
+        y--;
+    };
+    const goSouth = () => {
+        direction = 'S';
+        columns[x] = walk(columns[x], y);
+        y++;
+    };
+    const goEast = () => {
+        direction = 'E';
+        rows[y] = walk(rows[y], x);
+        x++;
+    };
+    const goWest = () => {
+        direction = 'W';
+        rows[y] = walk(rows[y], x);
+        x--;
+    };
 
     while (inBounds) {
-
         switch (direction) {
             case ('N'): {
                 const next = columns[x][y - 1];
-                if (next === '#') {
-                    direction = 'E';
-                    x++;
-                } else {
-                    columns[x] =
-                    y--;
-                }
+                if (next === '#') {goEast()} else goNorth();
                 break;
             }
             case ('S'): {
                 const next = columns[x][y + 1];
-                if (next === '#') {
-                    direction = 'W';
-                    x--;
-                } else {
-
-                    y++;
-                }
+                if (next === '#') {goWest()} else goSouth();
                 break;
             }
             case ('E'): {
-                const next = columns[y][x + 1];
-                if (next === '#') {
-                    direction = 'S';
-                    y++;
-                } else {
-
-                    x++;
-                }
+                const next = rows[y][x + 1];
+                if (next === '#') {goSouth()} else goEast();
                 break;
             }
             case ('W'): {
-                const next = columns[y][x - 1];
-                if (next === '#') {
-                    direction = 'N';
-                    y--;
-                } else {
-
-                    x--;
-                }
+                const next = rows[y][x - 1];
+                if (next === '#') {goNorth()} else goWest();
                 break;
             }
         }
@@ -98,13 +88,19 @@ const placeholder = input => {
         inBounds = (x >= 0 && x < size) && (y >= 0 && y < size);
     }
 
-    return columns;
+    const grid = rows.map((row, index) => row.split('').map((char, i) => {
+        if (char === 'X') return 'X';
+        if (columns[i][index] === 'X') return 'X';
+        return char;
+    }).join(''));
+
+    // console.table(grid);
+
+    return grid.join('').match(/X/g).length;
 }
 
-console.table(placeholder(eg));
-
-// console.log('1) eg:    ', placeholder(eg));
-// console.log('1) input: ', placeholder(input));
+console.log('1) eg:    ', route(eg));
+console.log('1) input: ', route(input));
 
 // Part 2 ---------------------------------------------------------------------
 
@@ -117,6 +113,6 @@ console.table(placeholder(eg));
 Wrong guesses:
 
 Correct:
-    1) 
+    1) 4939
     2) 
 */
