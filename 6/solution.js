@@ -84,7 +84,7 @@ const route = input => {
     return grid.join('').match(/X/g).length;
 }
 
-console.log('1) eg:    ', route(eg));
+// console.log('1) eg:    ', route(eg));
 // console.log('1) input: ', route(input));
 
 // Part 2 ---------------------------------------------------------------------
@@ -135,29 +135,37 @@ const loop = input => {
 
     const obstacles = {};
 
-    while (inBounds) {
+    let isLooping = false;
+
+    const checkLoop = (x, y, direction) => (obstacles[`${x},${y}`] === direction);
+
+    while (inBounds && !isLooping) {
         switch (direction) {
             case ('N'):
                 if (columns[x][y - 1] == '#') {
-                    obstacles[`${x},${y - 1}`] = true;
+                    if (checkLoop(x, y, direction)) isLooping = true;
+                    obstacles[`${x},${y}`] = direction;
                     goEast();
                 } else goNorth();
                 break;
             case ('S'):
                 if (columns[x][y + 1] == '#') {
-                    obstacles[`${x},${y + 1}`] = true;
+                    if (checkLoop(x, y, direction)) isLooping = true;
+                    obstacles[`${x},${y}`] = direction;
                     goWest();
                 } else goSouth();
                 break;
             case ('E'):
                 if (rows[y][x + 1] == '#') {
-                    obstacles[`${x + 1},${y}`] = true;
+                    if (checkLoop(x, y, direction)) isLooping = true;
+                    obstacles[`${x},${y}`] = direction;
                     goSouth();
                 } else goEast();
                 break;
             case ('W'):
                 if (rows[y][x - 1] == '#') {
-                    obstacles[`${x - 1},${y}`] = true;
+                    if (checkLoop(x, y, direction)) isLooping = true;
+                    obstacles[`${x},${y}`] = direction;
                     goNorth();
                 } else goWest();
                 break;
@@ -176,11 +184,14 @@ const loop = input => {
 
     // return grid.join('').match(/X/g).length;
 
-    return Object.keys(obstacles).length - 2;
+    console.log({isLooping});
+
+    return obstacles
+    // return Object.keys(obstacles).length - 2;
 }
 
 console.log('2) eg:    ', loop(eg));
-console.log('2) input: ', loop(input));
+// console.log('2) input: ', loop(input));
 
 /*
 Wrong guesses:
