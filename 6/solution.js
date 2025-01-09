@@ -100,6 +100,17 @@ const route = input => {
       123456
 
     ok, no but I don't understand why
+
+    Some key understandings:
+
+    1) It's actually quite easy to detect a loop,
+    if the guard passes through the same point,
+    with the same direction as before, he is in a loop
+
+    2) All previous positions should be kept in a stack,
+    since they are possible positions for a new "block" that causes a loop.
+    This is what will be iterated on.
+
 */
 
 const loop = input => {
