@@ -111,6 +111,8 @@ const route = input => {
     since they are possible positions for a new "block" that causes a loop.
     This is what will be iterated on.
 
+    # TODO: Store all previous positions in array
+
 */
 
 const loop = input => {
