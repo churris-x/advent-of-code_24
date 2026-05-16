@@ -6,6 +6,3 @@ node_modules/
 
 # env file
 .env
-
-# input files
-**/input.txt
